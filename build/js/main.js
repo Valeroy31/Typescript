@@ -1,22 +1,78 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let myName = 'Shalom';
-let meaningOfLife;
-let isLoading;
-let anyDataType; //this indicates the incoming value can be any data type and Ts should expect any
-let album; //this is a union data type, lets TS know the variable could hold a string pr number and either one is okay
-myName = 'Shammah';
-meaningOfLife = 42;
-isLoading = true;
-album = '1984'; //or 1984 works
-const sum = (a, b) => {
-    return a + b;
+let stringArr = ['one', 'hey', 'shammah'];
+let primarchs = ['Angron', 'Perturabo', 'Rogal Dorne', 40000];
+let mixedData = ['EVH', 1984, true];
+// stringArr[0] = 44 wrong, as the stringArr only and strictly has the type :String to it
+stringArr[0] = 'John'; //correct
+// primarchs[0] = true //wrong. PrimarchArr only takes in string and number types but not boolean
+primarchs[0] = 30000; //correct. The primarchs array takes in both string and number types
+primarchs = stringArr; //correct. As primarchs takes in string types alongside number
+mixedData = primarchs; //correct. mixed data takes in both number and string types as well as boolean
+// primarchs = mixedData wrong. While mixedData takes in combination of strings, numbers and boolean, primarch is limited to strings and numbers hence tweaks out when assigned an array with boolean.
+// Type '(string | number | boolean)[]' is not assignable to type '(string | number)[]'.Type 'string | number | boolean' is not assignable to type 'string | number'. Type 'boolean' is not assignable to type 'string | number'.
+let test = [];
+let bands = []; //an array that can only hold string data
+//bands.push(2) //wrong. Wrong type
+bands.push('Megadeth'); //correct. Right type
+//the length of the array or the order of the types in the array does not matter to TS. It just knows what types belong in the array - however, if you want to be more strict and define something that is locked in to a type in a specific element position and a specific length of an array, you create a tupple
+let myTuple = ['Shammah', 42, true];
+myTuple.push('John');
+console.log(myTuple);
+//-------------Objects------------------------
+let myObj;
+myObj = [];
+myObj = bands;
+myObj = {};
+const exampleObj = {
+    prop1: 'Shammah',
+    prop2: 'true'
 };
-//---------------Union type use-cases------------------
-//Post id coming from an api could be a string and converted to number for use on the frontend
-let postId;
-//Booleans could also be represented as 1 or 0
-let isActive;
-//TS inference can help you out when you are not particularly sure of what the type of an expression should be
-let re = /\w+/g;
+// assign an object using the type format and reference the followed type
+const philosophers = {
+    name: 'Nietzche',
+    active: false,
+    numberOfBooks: 12
+};
+//specify the type of the parameter to expect
+//Function with explicit parameter and return types
+const getPhilosophers = (Parameter) => {
+    return `Hello ${Parameter.name?.toUpperCase()}`;
+};
+console.log(getPhilosophers(philosophers));
+//-------------------ENUMS---------------------------
+//"Unlike most TypeScript features, Enums are not a type-level addition to JS but something added to the language and runtime"
+var Grade;
+(function (Grade) {
+    Grade[Grade["F"] = 0] = "F";
+    Grade[Grade["D"] = 1] = "D";
+    Grade[Grade["C"] = 2] = "C";
+    Grade[Grade["B"] = 3] = "B";
+    Grade[Grade["A"] = 4] = "A";
+})(Grade || (Grade = {}));
+const travellers = (people) => {
+    if (Array.isArray(people)) {
+        console.log(`Welcome ${people.join(' and ')}`);
+    }
+    else if (typeof people === 'string') {
+        // console.log(`Hello ${people}, the lone traveller`);
+    }
+};
+travellers("Shammah");
+const multiply = (a, b) => {
+    return a * b;
+};
+multiply(2, 3);
+function example(x, y) {
+    if (x === y) {
+        // We can now call any 'string' method on 'x' or 'y'.
+        console.log(x.toUpperCase());
+        console.log(y.toLowerCase());
+    }
+    else {
+        console.log(x);
+        console.log(y);
+    }
+}
+example('hello', 'HELLO');
 //# sourceMappingURL=main.js.map
