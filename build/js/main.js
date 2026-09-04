@@ -1,78 +1,90 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-let stringArr = ['one', 'hey', 'shammah'];
-let primarchs = ['Angron', 'Perturabo', 'Rogal Dorne', 40000];
-let mixedData = ['EVH', 1984, true];
-// stringArr[0] = 44 wrong, as the stringArr only and strictly has the type :String to it
-stringArr[0] = 'John'; //correct
-// primarchs[0] = true //wrong. PrimarchArr only takes in string and number types but not boolean
-primarchs[0] = 30000; //correct. The primarchs array takes in both string and number types
-primarchs = stringArr; //correct. As primarchs takes in string types alongside number
-mixedData = primarchs; //correct. mixed data takes in both number and string types as well as boolean
-// primarchs = mixedData wrong. While mixedData takes in combination of strings, numbers and boolean, primarch is limited to strings and numbers hence tweaks out when assigned an array with boolean.
-// Type '(string | number | boolean)[]' is not assignable to type '(string | number)[]'.Type 'string | number | boolean' is not assignable to type 'string | number'. Type 'boolean' is not assignable to type 'string | number'.
-let test = [];
-let bands = []; //an array that can only hold string data
-//bands.push(2) //wrong. Wrong type
-bands.push('Megadeth'); //correct. Right type
-//the length of the array or the order of the types in the array does not matter to TS. It just knows what types belong in the array - however, if you want to be more strict and define something that is locked in to a type in a specific element position and a specific length of an array, you create a tupple
-let myTuple = ['Shammah', 42, true];
-myTuple.push('John');
-console.log(myTuple);
-//-------------Objects------------------------
-let myObj;
-myObj = [];
-myObj = bands;
-myObj = {};
-const exampleObj = {
-    prop1: 'Shammah',
-    prop2: 'true'
-};
-// assign an object using the type format and reference the followed type
-const philosophers = {
-    name: 'Nietzche',
-    active: false,
-    numberOfBooks: 12
-};
-//specify the type of the parameter to expect
-//Function with explicit parameter and return types
-const getPhilosophers = (Parameter) => {
-    return `Hello ${Parameter.name?.toUpperCase()}`;
-};
-console.log(getPhilosophers(philosophers));
-//-------------------ENUMS---------------------------
-//"Unlike most TypeScript features, Enums are not a type-level addition to JS but something added to the language and runtime"
-var Grade;
-(function (Grade) {
-    Grade[Grade["F"] = 0] = "F";
-    Grade[Grade["D"] = 1] = "D";
-    Grade[Grade["C"] = 2] = "C";
-    Grade[Grade["B"] = 3] = "B";
-    Grade[Grade["A"] = 4] = "A";
-})(Grade || (Grade = {}));
-const travellers = (people) => {
-    if (Array.isArray(people)) {
-        console.log(`Welcome ${people.join(' and ')}`);
+class Coder {
+    name;
+    music;
+    age;
+    lang;
+    constructor(name, music, age, lang = 'Typescript') {
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+        // this.name = name
+        // this.music = music
+        // this.age = age
+        // this.lang = lang
     }
-    else if (typeof people === 'string') {
-        // console.log(`Hello ${people}, the lone traveller`);
-    }
-};
-travellers("Shammah");
-const multiply = (a, b) => {
-    return a * b;
-};
-multiply(2, 3);
-function example(x, y) {
-    if (x === y) {
-        // We can now call any 'string' method on 'x' or 'y'.
-        console.log(x.toUpperCase());
-        console.log(y.toLowerCase());
-    }
-    else {
-        console.log(x);
-        console.log(y);
+    getAge() {
+        return `Hello im ${this.age}`;
     }
 }
-example('hello', 'HELLO');
+const Dave = new Coder('Dave', 'Rock', 42);
+console.log(Dave.getAge());
+class WebDev extends Coder {
+    computer;
+    constructor(computer, music, name, age) {
+        super(name, music, age);
+        this.computer = computer;
+        // this.computer = computer can be taken out without any issue
+    }
+    getLang() {
+        `I write ${this.lang} on ${this.computer}`;
+    }
+}
+const sara = new WebDev('Mac', 'Lofi', 'Sara', 25);
+console.log(sara.getLang());
+class Guitarist {
+    name;
+    instrument;
+    constructor(name, instrument) {
+        this.name = name;
+        this.instrument = instrument;
+        // this.name = name
+        // this.instrument = instrument
+    }
+    play(action) {
+        return `${this.name} ${action} the ${this.instrument}`;
+    }
+}
+const Page = new Guitarist('Jimmy', 'guitar');
+console.log(Page.play('strums'));
+/////////////////////////////////////////////////
+class Peeps {
+    name;
+    static count = 0;
+    static getCount() {
+        return Peeps.count;
+    }
+    id;
+    constructor(name) {
+        this.name = name;
+        this.name = name;
+        this.id = ++Peeps.count;
+    }
+}
+const John = new Peeps('John');
+const Steve = new Peeps('Steve');
+const Amy = new Peeps('Amy');
+////////////////////////////////////////////
+class Band {
+    dataState;
+    constructor(dataState) {
+        this.dataState = dataState;
+    }
+    get data() {
+        return this.dataState;
+    }
+    set data(value) {
+        if (Array.isArray(value) && value.every(element => typeof element === 'string')) {
+            this.dataState = value;
+            return;
+        }
+        else {
+            throw new Error('All elements in array must be strings');
+        }
+    }
+}
+const myBands = new Band();
+myBands.data = ['Megadeth', 'Pantera'];
 //# sourceMappingURL=main.js.map
