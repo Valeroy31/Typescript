@@ -1,90 +1,43 @@
 "use strict";
+//Index Signatures
 Object.defineProperty(exports, "__esModule", { value: true });
-class Coder {
-    name;
-    music;
-    age;
-    lang;
-    constructor(name, music, age, lang = 'Typescript') {
-        this.name = name;
-        this.music = music;
-        this.age = age;
-        this.lang = lang;
-        // this.name = name
-        // this.music = music
-        // this.age = age
-        // this.lang = lang
+const todaysTransactions = {
+    Pizza: -10,
+    Books: -5,
+    Job: 50,
+    Dave: 42
+};
+let prop = 'Pizza';
+todaysTransactions[prop] = 30;
+const netTransaction = (transactions) => {
+    let total = 0;
+    for (const transaction in transactions) {
+        total += transactions[transaction] ?? 0;
     }
-    getAge() {
-        return `Hello im ${this.age}`;
-    }
+    return total;
+};
+console.log(netTransaction(todaysTransactions));
+const student = {
+    name: "Doug",
+    GPA: 3.5,
+    classes: [100, 200]
+};
+// console.log(student.test);
+for (const key in student) {
+    console.log((`${key}: ${student[key]}`));
 }
-const Dave = new Coder('Dave', 'Rock', 42);
-console.log(Dave.getAge());
-class WebDev extends Coder {
-    computer;
-    constructor(computer, music, name, age) {
-        super(name, music, age);
-        this.computer = computer;
-        // this.computer = computer can be taken out without any issue
-    }
-    getLang() {
-        `I write ${this.lang} on ${this.computer}`;
-    }
+Object.keys(student).map(key => {
+    return `${student[key]}`;
+});
+const logStudentKey = (student, key) => {
+    console.log(`Student ${student}: ${student[key]} `);
+};
+console.log(logStudentKey(student, 'GPA'));
+const monthlyIncomes = {
+    salary: 500,
+    bonus: 100,
+    sidehustle: 250
+};
+for (const key in monthlyIncomes) {
+    console.log(`${key}: ${monthlyIncomes[key]}`);
 }
-const sara = new WebDev('Mac', 'Lofi', 'Sara', 25);
-console.log(sara.getLang());
-class Guitarist {
-    name;
-    instrument;
-    constructor(name, instrument) {
-        this.name = name;
-        this.instrument = instrument;
-        // this.name = name
-        // this.instrument = instrument
-    }
-    play(action) {
-        return `${this.name} ${action} the ${this.instrument}`;
-    }
-}
-const Page = new Guitarist('Jimmy', 'guitar');
-console.log(Page.play('strums'));
-/////////////////////////////////////////////////
-class Peeps {
-    name;
-    static count = 0;
-    static getCount() {
-        return Peeps.count;
-    }
-    id;
-    constructor(name) {
-        this.name = name;
-        this.name = name;
-        this.id = ++Peeps.count;
-    }
-}
-const John = new Peeps('John');
-const Steve = new Peeps('Steve');
-const Amy = new Peeps('Amy');
-////////////////////////////////////////////
-class Band {
-    dataState;
-    constructor(dataState) {
-        this.dataState = dataState;
-    }
-    get data() {
-        return this.dataState;
-    }
-    set data(value) {
-        if (Array.isArray(value) && value.every(element => typeof element === 'string')) {
-            this.dataState = value;
-            return;
-        }
-        else {
-            throw new Error('All elements in array must be strings');
-        }
-    }
-}
-const myBands = new Band();
-myBands.data = ['Megadeth', 'Pantera'];
-//# sourceMappingURL=main.js.map

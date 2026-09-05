@@ -28,4 +28,3 @@ function getShelfCounts(userShelves) {
 function formatRating(rating, precision = 1) {
     return rating.toFixed(precision);
 }
-//# sourceMappingURL=copyright.js.map
