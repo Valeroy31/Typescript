@@ -1,43 +1,46 @@
 "use strict";
-//Index Signatures
 Object.defineProperty(exports, "__esModule", { value: true });
-const todaysTransactions = {
-    Pizza: -10,
-    Books: -5,
-    Job: 50,
-    Dave: 42
+//generics
+const stringEcho = (arg) => arg;
+const echo = (arg) => arg;
+const isObj = (arg) => {
+    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null);
 };
-let prop = 'Pizza';
-todaysTransactions[prop] = 30;
-const netTransaction = (transactions) => {
-    let total = 0;
-    for (const transaction in transactions) {
-        total += transactions[transaction] ?? 0;
+// console.log(isObj(true));
+// console.log(isObj('John'));
+// console.log(isObj([1,2,3]));
+// console.log(isObj({name: 'John'}))
+// console.log(isObj(null))
+const isTrue = (arg) => {
+    return { arg, is: Boolean(arg) };
+};
+function identity(arg) {
+    return arg;
+}
+let output = identity(['string', 47]);
+console.log(output);
+function loggingIdentity(arg) {
+    console.log(arg.length);
+    return arg;
+}
+loggingIdentity([]);
+const getUserProp = (Users, key) => {
+    return Users.map((user) => user[key]);
+};
+//Using generic in a class
+class StateObject {
+    data;
+    constructor(value) {
+        this.data = value;
     }
-    return total;
-};
-console.log(netTransaction(todaysTransactions));
-const student = {
-    name: "Doug",
-    GPA: 3.5,
-    classes: [100, 200]
-};
-// console.log(student.test);
-for (const key in student) {
-    console.log((`${key}: ${student[key]}`));
+    get state() {
+        return this.data;
+    }
+    set state(value) {
+        this.data = value;
+    }
 }
-Object.keys(student).map(key => {
-    return `${student[key]}`;
-});
-const logStudentKey = (student, key) => {
-    console.log(`Student ${student}: ${student[key]} `);
-};
-console.log(logStudentKey(student, 'GPA'));
-const monthlyIncomes = {
-    salary: 500,
-    bonus: 100,
-    sidehustle: 250
-};
-for (const key in monthlyIncomes) {
-    console.log(`${key}: ${monthlyIncomes[key]}`);
-}
+const store = new StateObject("John");
+console.log(store.state);
+//store.state = 12
+const myState = new StateObject([15]);

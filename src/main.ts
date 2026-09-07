@@ -1,81 +1,61 @@
-//Index Signatures
+//generics
+const stringEcho = (arg:string): string=> arg
+const echo = <T> (arg:T): T=> arg
 
-interface transactionObj {
-    [index: string]: number
-     Pizza: number
-    Books: number
-    Job: number
+const isObj = <T> (arg: T): boolean=>{
+    return(typeof arg === 'object' && !Array.isArray(arg) && arg!== null)
 }
 
-const todaysTransactions: transactionObj = {
-    Pizza: -10,
-    Books: -5,
-    Job: 50,
-    Dave: 42
+// console.log(isObj(true));
+// console.log(isObj('John'));
+// console.log(isObj([1,2,3]));
+// console.log(isObj({name: 'John'}))
+// console.log(isObj(null))
+
+const isTrue = <T>(arg: T): {arg: T, is: boolean}=>{
+    return{arg, is: Boolean(arg)}
 }
-let prop:string = 'Pizza'
 
-todaysTransactions[prop] = 30
+function identity<Type>(arg: Type): Type {
+  return arg;
+}
+let output = identity(['string', 47])
+console.log(output);
 
-const netTransaction =(transactions: transactionObj)=>{
-    let total = 0
-    for (const transaction in transactions) {
-       total+= transactions[transaction] ?? 0   
-        
+
+function loggingIdentity<Type>(arg: Type[]): Type[]{
+   console.log(arg.length);
+   
+    return arg
+}
+loggingIdentity([])
+interface hasId {
+    id: number
+}
+
+const getUserProp = <T extends hasId, K extends keyof T> (Users: T[], key: K): T[K][]=>{
+    return Users.map((user)=> user[key])
+}
+
+//Using generic in a class
+
+class StateObject<T>{
+    private data: T
+
+    constructor(value: T){
+        this.data = value
     }
-    return total
+    get state(): T {
+        return this.data
+    }
+    set state(value: T){
+        this.data = value
+    }
+
 }
+const store = new StateObject("John")
 
-console.log(netTransaction(todaysTransactions));
+console.log(store.state);
+//store.state = 12
 
-////////////////////////////////////////////////////
-
-interface Student{
-     [key: string]: string | number | number[]
-    name: string,
-    GPA: number,
-    classes?: number[]
-}
-const student: Student = {
-    name: "Doug",
-    GPA: 3.5,
-    classes: [100,200]
-}
-// console.log(student.test);
-
-for(const key in student){
-    console.log((`${key}: ${student[key] }`));
-    
-}
-
-Object.keys(student).map(key=>{
-    return `${student[key as keyof typeof student] }`
-})
-
-const logStudentKey = (student: Student, key: keyof Student): void=>{
-    console.log(`Student ${student}: ${student[key]} `);
-    
-}
-
-console.log(logStudentKey(student, 'GPA'));
-
-//////////////////////////////////////////////////
-
-// interface Income{
-//     [key: string]: number
-//     }
-type Streams = 'salary' | 'bonus' | 'sidehustle'
-
-type Incomes = Record<Streams, number>
-const monthlyIncomes: Incomes = {
-    salary: 500,
-    bonus: 100,
-    sidehustle: 250
-}
-
-for (const key in monthlyIncomes) {
-    
-    console.log(`${key}: ${monthlyIncomes[key as keyof Incomes]}`);
-    
-    
-}
+const myState = new StateObject<(string|number|boolean)[]>([15])
